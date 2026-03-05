@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth.models import User # default model import
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash #
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash #login 
 from django.contrib import messages # show msg 
 
 # Create your views here.
@@ -21,7 +21,7 @@ def register(request):
             messages.error(request, 'wrong password')
             return redirect('register')
         
-        if User.objects.filte(username = user_name).exists():
+        if User.objects.filter(username = user_name).exists():
             messages.error(request, 'username already exists')
             return redirect('register')
         
@@ -31,12 +31,12 @@ def register(request):
         
         # Create user with hased password for using create_user()
         user = User.objects.create_user(
-            username = user_name,  # model = variable
+            username = user_name,  # modelname = variable
             email = mail,
             password = password 
         ) 
 
-        user.first_name = firstname  # user.model = variable  
+        user.first_name = firstname  # user.modelname = variable  
         user.last_name = lastname 
 
         user.save()
@@ -47,7 +47,42 @@ def register(request):
     return render(request, 'accounts/register.html')
 
 def signin(request):
+
+    if request.method == "POST":
+        username_email = request.POST.get('username_or_email')
+        pass_word = request.POST.get('password')
+
+        # if username or email : error handle with try & except
+        try:
+            user_obj = User.objects.get(email = username_email) # object = ....(modelname = variable)
+            user_name = user_obj.username  # variable = object.modelname
+        except User.DoesNotExist:
+            user_name = username_email  
+        
+        user = authenticate(request, username = user_name, password = pass_word)  # variable = ...(modelname = vriable)
+        
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login Successfull')
+            return redirect('home')
+        
+        else:
+            messages.error(request, 'Invalid Credential!')
+            return redirect('login')
+        
+
+        # if only username
+        '''user = authenticate(request, username = username_email, password = pass_word)
+        if user is not None:
+            login(request, user)
+            messages.success(request,'login successfull')
+            return redirect('home')
+        else:
+            messages.error(request, 'invalid input')
+            return redirect('login')'''
+
     return render(request, 'accounts/login.html')
 
 def profile(request):
+
     return render(request, 'accounts/profile.html')
