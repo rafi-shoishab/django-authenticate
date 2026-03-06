@@ -61,7 +61,7 @@ Windows
 python -m venv .venv
 .venv\Scripts\activate
 ```
-### Install Dependencies
+Install Dependencies
 ```
 pip install -r requirements.txt
 ```
@@ -117,8 +117,6 @@ def register(request):
 Django provides built-in functions to authenticate users.
 
 ### Login View
-
-📄 accounts/views.py
 
 ```
 📄 accounts/views.py
