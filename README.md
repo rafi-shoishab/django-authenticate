@@ -172,8 +172,9 @@ def home(request):
 
 ### App URLs
 
-```
 📄 accounts/urls.py
+
+```
 from django.urls import path
 from . import views
 
