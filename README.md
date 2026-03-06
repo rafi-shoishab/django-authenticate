@@ -156,8 +156,8 @@ def log_out(request):
 ## 🔒 5. Protected Routes
 
 Some pages should only be accessible for logged-in users.
+Django provides the login_required decorator.
 
-### Django provides the login_required decorator.
 📄 accounts/views.py
 
 ```
@@ -185,9 +185,10 @@ urlpatterns = [
 ]
 ```
 ### Project URLs
-```
+
 📄 core/urls.py
 
+```
 from django.contrib import admin
 from django.urls import path, include
 
