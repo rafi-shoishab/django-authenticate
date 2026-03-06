@@ -81,11 +81,9 @@ http://127.0.0.1:8000
 
 Users can create new accounts through the registration form.
 
-### Registration View
-
+### Registration View 
+📄 accounts/views.py 
 ```
-📄 accounts/views.py
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -117,10 +115,9 @@ def register(request):
 Django provides built-in functions to authenticate users.
 
 ### Login View
-
-```
 📄 accounts/views.py
 
+```
 from django.contrib.auth import authenticate, login
 
 def login_user(request):
@@ -146,10 +143,9 @@ def login_user(request):
 Logout removes the user session from the server.
 
 ### Logout View
-
-```
 📄 accounts/views.py
 
+```
 from django.contrib.auth import logout
 
 def log_out(request):
@@ -162,9 +158,9 @@ def log_out(request):
 Some pages should only be accessible for logged-in users.
 
 ### Django provides the login_required decorator.
-```
 📄 accounts/views.py
 
+```
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -204,9 +200,9 @@ urlpatterns = [
 
 Templates are used to render HTML pages.
 
-```
 📄 templates/login.html
 
+```
 <form method="POST">
     {% csrf_token %}
 
@@ -239,12 +235,17 @@ User Logged In
 
 ## 🛠 Django Admin Panel
 ### Apply Migrations
+```
 python manage.py migrate
+```
 ### Create Superuser
+```
 python manage.py createsuperuser
+```
 ### Login Admin Panel
+```
 http://127.0.0.1:8000/admin/
-
+```
 ## 🔧 Git Workflow (Quick Guide)
 
 ### First Time
