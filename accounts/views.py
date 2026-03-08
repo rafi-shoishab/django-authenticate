@@ -39,8 +39,7 @@ def register(request):
 
         user.first_name = firstname  # user.modelname = variable  
         user.last_name = lastname 
-        user.gender = gender  
-
+        
         user.save()
         messages.success(request, 'account created succesfully')
         return redirect('login')
