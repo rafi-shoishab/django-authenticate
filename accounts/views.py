@@ -24,7 +24,7 @@ def register(request):
 
         if password != confirm_password:
             messages.error(request, "wrong password")
-            return redirect('register')
+            return redirect('register') # urls name
         
         if not re.match(pattern, password):
             messages.error(request, "password at leat 8 characters: includes [0-9][a-z][A-Z][!@#$%^&?...]")
@@ -53,11 +53,11 @@ def register(request):
         return redirect('login')
 
 
-    return render(request, 'accounts/register.html')
+    return render(request, 'accounts/register.html') # template url name
 
-def log_in(request):
+def log_in(request): 
 
-    if request.method == "POST":
+    if request.method == "POST": 
         username_email = request.POST.get('username_or_email')
         pass_word = request.POST.get('password')
 
@@ -65,15 +65,15 @@ def log_in(request):
         try:
             user_obj = User.objects.get(email = username_email) # object = ....(modelname = variable)
             user_name = user_obj.username  # variable = object.modelname
-        except User.DoesNotExist:
-            user_name = username_email  
+        except User.DoesNotExist: 
+            user_name = username_email 
         
         user = authenticate(request, username = user_name, password = pass_word)  # variable = ...(modelname = variable)
         
         if user is not None:
             login(request, user)
             messages.success(request, 'Login Successfull')
-            return redirect('home')
+            return redirect('home') 
         
         else:
             messages.error(request, 'Invalid Credential!')
@@ -144,13 +144,19 @@ def change_password(request):
         new_password = request.POST.get('new_password') 
         confirm_password = request.POST.get('confirm_new_password')
 
-        if not pro_file.check_password(old_password):
-            messages.error(request, "wrong old password!")
-            return redirect('change_password') 
-        
+        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+
         if new_password != confirm_password:
             messages.error(request, 'password did not match')
             return redirect('change_password')
+    
+        if not re.match(pattern, new_password):
+            messages.error(request, "password at leat 8 characters: includes [0-9][a-z][A-Z][!@#$%^&?...]")
+            return redirect ('change_password')
+
+        if not pro_file.check_password(old_password):
+            messages.error(request, "wrong old password!")
+            return redirect('change_password') 
         
         pro_file.set_password(new_password) 
         update_session_auth_hash(request, pro_file) # update password of the user
