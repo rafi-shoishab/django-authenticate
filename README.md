@@ -21,7 +21,7 @@ This project demonstrates a basic Django Authentication System using Django's bu
 ```
 django-authenticate/
 │
-├── core/
+├── authentication/
 │   ├── settings.py        # Project settings
 │   ├── urls.py            # Main URL configuration
 │   ├── wsgi.py
