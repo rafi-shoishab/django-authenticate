@@ -3,6 +3,8 @@ from django.contrib.auth.models import User # default model import
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash #login 
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages # show msg 
+import re # for password pattern regex 
+
 
 # Create your views here.
 def home(request):
@@ -18,10 +20,16 @@ def register(request):
         password = request.POST.get('password') 
         confirm_password = request.POST.get('confirm_password') 
 
+        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+
         if password != confirm_password:
-            messages.error(request, 'wrong password')
+            messages.error(request, "wrong password")
             return redirect('register')
         
+        if not re.match(pattern, password):
+            messages.error(request, "password at leat 8 characters: includes [0-9][a-z][A-Z][!@#$%^&?...]")
+            return redirect('register')
+
         if User.objects.filter(username = user_name).exists():
             messages.error(request, 'username already exists')
             return redirect('register')
